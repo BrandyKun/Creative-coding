@@ -30,18 +30,18 @@ const sketch = ({ context, width, height }) => {
 
         if (dist > 200) continue;
 
-        context.lineWith = math.mapRange(dist, 0, 200,12,1);
+        context.lineWith = math.mapRange(dist, 0, 200, 12, 1);
 
         context.beginPath();
         context.moveTo(agent.pos.x, agent.pos.y);
-        context.lineTo(other.pos.x, other.pos.y);
+        // context.lineTo(other.pos.x, other.pos.y);
         context.stroke();
       }
     }
     agents.forEach((agent) => {
       agent.update();
       agent.draw(context);
-      agent.bounce(width, height);
+      agent.wrap(width, height);
     });
   };
 };
@@ -86,5 +86,13 @@ class Agent {
     context.fill();
     context.stroke();
     context.restore();
+  }
+  wrap(width, height) {
+    // if (this.pos.x < 0) this.pos.x = width;
+    // if (this.pos.x > width) this.pos.x = 0;
+    // if (this.pos.y < 0) this.pos.y = height;
+    // if (this.pos.y > height) this.pos.y = 0;
+    this.pos.x = (this.pos.x + width) % width;
+    this.pos.y = (this.pos.y + height) % height;
   }
 }
